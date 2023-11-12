@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "time-machine",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "A plugin to view what you were journaling about at various past intervals.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
