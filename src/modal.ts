@@ -40,8 +40,8 @@ export default class TimeMachineModal extends Modal {
 			const rootEl = createDiv({ cls: "nav-folder mod-root" });
 			const childrenEl = rootEl.createDiv({ cls: "nav-folder-children" });
 			timeIntervals.forEach((timeInterval) => {
-				childrenEl.createEl("h2", { text: timeInterval.headerName })
-				timeInterval.minHeap.heap.forEach((file) => {
+				childrenEl.createEl("h2", { text: `${timeInterval.headerName} - ${timeInterval.dateBoundary.toLocaleDateString('en-US')}` })
+				timeInterval.minHeap.heap.slice().reverse().forEach((file) => {
 					const currentFile = file.file;
 					const navFile = childrenEl.createDiv({
 						cls: "tree-item nav-file recent-files-file",
@@ -53,9 +53,8 @@ export default class TimeMachineModal extends Modal {
 						cls: "tree-item-inner nav-file-title-content recent-files-title-content",
 					});
 					if (file.date) {
-						navFileTitleContent.createEl("strong", {
-							text: `${currentFile.basename}: ${file.date.toLocaleDateString('en-US')}`,
-						});
+						const p = navFileTitleContent.createEl("p")
+						p.innerHTML = `<strong>${currentFile.basename}</strong>: <i><span class="date">${file.date.toLocaleDateString('en-US')}</span></i>`;
 					}
 					const path = navFileTitleContent.createEl("p", { text: currentFile.path });
 					path.style.marginBlock = '0.5em';
@@ -96,7 +95,7 @@ export default class TimeMachineModal extends Modal {
 			if (file.content !== undefined) {
 				file.content.then((content) => {
 					const lines = content.split("\n");
-					if (lines[0] != "---") {
+					if (lines[0].trim() == "---") {
 						for (const line of lines) {
 							if (line.includes(this.settings.propertyName)) {
 								var curDateStr = line.split(":")[1].trim();

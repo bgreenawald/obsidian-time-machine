@@ -54,7 +54,7 @@ export default class DateMinHeap {
 
 	// Removing an element will remove the
 	// top element with highest priority then
-	// heapifyDown will be called 
+	// heapifyDown will be called
 	remove() {
 		if (this.heap.length === 0) {
 			return null;
@@ -112,4 +112,8 @@ export default class DateMinHeap {
 			heap += ` ${this.heap[i].file.basename} `;
 		}
 	}
+}
+
+DateMinHeap.prototype.toString = function () {
+	return this.heap.toString();
 }
