@@ -34,9 +34,6 @@ export default class TimeMachineModal extends Modal {
 		updateTimeIntervals(this.settings);
 		// Reload the time machine files
 		this.timeMachineFiles().then(() => {
-
-			const openFile = this.app.workspace.getActiveFile();
-
 			const rootEl = createDiv({ cls: "nav-folder mod-root" });
 			const childrenEl = rootEl.createDiv({ cls: "nav-folder-children" });
 			timeIntervals.forEach((timeInterval) => {
@@ -98,8 +95,8 @@ export default class TimeMachineModal extends Modal {
 					if (lines[0].trim() == "---") {
 						for (const line of lines) {
 							if (line.includes(this.settings.propertyName)) {
-								var curDateStr = line.split(":")[1].trim();
-								var curDate = new Date(curDateStr);
+								const curDateStr = line.split(":")[1].trim();
+								const curDate = new Date(curDateStr);
 								file.setDate(curDate);
 								timeIntervals.forEach((timeInterval) => {
 									if (curDate <= timeInterval.dateBoundary) {
@@ -114,8 +111,7 @@ export default class TimeMachineModal extends Modal {
 			}
 		});
 	}
-};
-
+}
 
 function doesPathContainSubpath(path: string, subpath: string) {
 	// Normalize paths by replacing backslashes with forward slashes

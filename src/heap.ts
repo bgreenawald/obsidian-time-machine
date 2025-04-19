@@ -107,10 +107,11 @@ export default class DateMinHeap {
 	}
 
 	printHeap() {
-		var heap = ` ${this.heap[0]} `
-		for (var i = 1; i < this.heap.length; i++) {
+		let heap = ` ${this.heap[0]} `;
+		for (let i = 1; i < this.heap.length; i++) {
 			heap += ` ${this.heap[i].file.basename} `;
 		}
+		return heap;
 	}
 }
 

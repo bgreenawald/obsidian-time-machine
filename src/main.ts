@@ -5,7 +5,7 @@ import {
 import TimeMachineModal from "src/modal";
 import { updateTimeIntervals } from "./timeInterval";
 
-import { DEFAULT_SETTINGS, TimeMachineSettings, TimeMachineSettingTab as TimeMachineSettingTab } from "src/settings";
+import { DEFAULT_SETTINGS, TimeMachineSettings, TimeMachineSettingTab } from "src/settings";
 
 
 export default class TimeMachine extends Plugin {

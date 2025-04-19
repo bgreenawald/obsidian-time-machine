@@ -17,7 +17,7 @@ export default class DateFile {
 		}
 		else {
 			this.date = date
-		};
+		}
 	}
 
 	setDate(date: Date) {
