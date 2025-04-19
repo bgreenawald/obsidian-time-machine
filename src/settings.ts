@@ -44,7 +44,7 @@ export class TimeMachineSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		let mainHeading = containerEl.createEl("h1");
+		const mainHeading = containerEl.createEl("h1");
 		mainHeading.textContent = 'General Settings';
 
 		new Setting(containerEl)
@@ -53,7 +53,7 @@ export class TimeMachineSettingTab extends PluginSettingTab {
 			.addText((text) =>
 				text
 					.setValue(this.plugin.settings.propertyName)
-					.onChange(async (value) => {
+					.onChange(async (_) => {
 						await this.plugin.saveSettings();
 					})
 			);
@@ -74,107 +74,70 @@ export class TimeMachineSettingTab extends PluginSettingTab {
 			);
 
 		containerEl.createEl("hr");
-		let timeRanges = containerEl.createEl("h1");
+		const timeRanges = containerEl.createEl("h1");
 		timeRanges.textContent = 'Time Ranges';
 
-		let timeRangeDesc = containerEl.createEl('p');
+		const timeRangeDesc = containerEl.createEl('p');
 		timeRangeDesc.textContent = 'Set what time ranges you would like the time machine to use.'
 
-		let weeks = containerEl.createEl("h3");
-		weeks.textContent = 'Weeks';
+        // Define a union type for all the interval keys
+        type IntervalKey =
+            | 'timeIntervalWeek'
+            | 'timeIntervalTwoWeeks'
+            | 'timeIntervalMonth'
+            | 'timeIntervalSixMonths'
+            | 'timeIntervalYear'
+            | 'timeIntervalTwoYears'
+            | 'timeIntervalFiveYears'
+            | 'timeIntervalTenYears';
 
-		new Setting(containerEl)
-			.setName("1 Week Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalWeek)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalWeek = value;
-						await this.plugin.saveSettings();
-					}),
-			);
+        interface IntervalConfig {
+            key: IntervalKey;
+            name: string;
+        }
 
-		new Setting(containerEl)
-			.setName("2 Weeks Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalTwoWeeks)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalTwoWeeks = value;
-						await this.plugin.saveSettings();
-					}),
-			);
+        const timeIntervalGroups: { label: string; intervals: IntervalConfig[] }[] = [
+            {
+                label: 'Weeks',
+                intervals: [
+                    { key: 'timeIntervalWeek', name: '1 Week Ago' },
+                    { key: 'timeIntervalTwoWeeks', name: '2 Weeks Ago' },
+                ],
+            },
+            {
+                label: 'Months',
+                intervals: [
+                    { key: 'timeIntervalMonth', name: '1 Month Ago' },
+                    { key: 'timeIntervalSixMonths', name: '6 Months Ago' },
+                ],
+            },
+            {
+                label: 'Years',
+                intervals: [
+                    { key: 'timeIntervalYear', name: '1 Year Ago' },
+                    { key: 'timeIntervalTwoYears', name: '2 Years Ago' },
+                    { key: 'timeIntervalFiveYears', name: '5 Years Ago' },
+                    { key: 'timeIntervalTenYears', name: '10 Years Ago' },
+                ],
+            },
+        ];
 
-		let months = containerEl.createEl("h3");
-		months.textContent = 'Months';
-		new Setting(containerEl)
-			.setName("1 Month Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalMonth)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalMonth = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("6 Months Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalSixMonths)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalSixMonths = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		let years = containerEl.createEl("h3");
-		years.textContent = 'Years';
-
-		new Setting(containerEl)
-			.setName("1 Year Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalYear)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalYear = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("2 Years Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalTwoYears)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalTwoYears = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("5 Years Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalFiveYears)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalFiveYears = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("10 Years Ago")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.timeIntervalTenYears)
-					.onChange(async (value) => {
-						this.plugin.settings.timeIntervalTenYears = value;
-						await this.plugin.saveSettings();
-					}),
-			);
+        timeIntervalGroups.forEach(group => {
+            const groupHeader = containerEl.createEl('h3');
+            groupHeader.textContent = group.label;
+            group.intervals.forEach(interval => {
+                new Setting(containerEl)
+                    .setName(interval.name)
+                    .addToggle((toggle) =>
+                        toggle
+                            .setValue(this.plugin.settings[interval.key])
+                            .onChange(async (value) => {
+                                this.plugin.settings[interval.key] = value;
+                                await this.plugin.saveSettings();
+                            })
+                    );
+            });
+        });
 
 
 	}
