@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: TimeMachineSettings = {
 	ignoreDirectories: []
 };
 
-export class TimeMAchineSettingTab extends PluginSettingTab {
+export class TimeMachineSettingTab extends PluginSettingTab {
 	plugin: TimeMachine;
 
 	constructor(app: App, plugin: TimeMachine) {

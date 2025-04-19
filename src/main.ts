@@ -5,7 +5,7 @@ import {
 import TimeMachineModal from "src/modal";
 import { updateTimeIntervals } from "./timeInterval";
 
-import { DEFAULT_SETTINGS, TimeMachineSettings, TimeMAchineSettingTab } from "src/settings";
+import { DEFAULT_SETTINGS, TimeMachineSettings, TimeMachineSettingTab as TimeMachineSettingTab } from "src/settings";
 
 
 export default class TimeMachine extends Plugin {
@@ -23,7 +23,7 @@ export default class TimeMachine extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new TimeMAchineSettingTab(this.app, this));
+		this.addSettingTab(new TimeMachineSettingTab(this.app, this));
 
 	}
 
