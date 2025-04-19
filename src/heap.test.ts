@@ -31,7 +31,7 @@ describe("DateMinHeap", () => {
         const heap = new DateMinHeap(2);
         heap.add(makeDateFile("2021-01-01", "a.md"));
         heap.add(makeDateFile("2022-01-01", "b.md"));
-        expect(heap.peek().file.basename).toBe("a.md");
+        expect(heap.peek()?.file.basename).toBe("a.md");
     });
 
     it("should remove the top item", () => {
@@ -39,7 +39,7 @@ describe("DateMinHeap", () => {
         heap.add(makeDateFile("2021-01-01", "a.md"));
         heap.add(makeDateFile("2022-01-01", "b.md"));
         const removed = heap.remove();
-        expect(removed.file.basename).toBe("a.md");
+        expect(removed?.file.basename).toBe("a.md");
         expect(heap.heap.length).toBe(1);
     });
 
