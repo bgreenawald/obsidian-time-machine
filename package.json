@@ -1,6 +1,6 @@
 {
 	"name": "time-machine",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "A plugin to view what you were journaling about at various past intervals.",
 	"main": "./src/main.js",
 	"scripts": {
